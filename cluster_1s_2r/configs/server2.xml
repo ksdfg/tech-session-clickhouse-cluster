@@ -1,0 +1,59 @@
+<clickhouse>
+    <macros>
+        <cluster>mycluster</cluster>
+        <shard>01</shard>
+        <replica>02</replica>
+    </macros>
+
+    <display_name>clickhouse2</display_name>
+    <listen_host>::</listen_host>
+    <tcp_port>9000</tcp_port>
+    <http_port>8123</http_port>
+    <logger>
+        <level>debug</level>
+        <log>/var/log/clickhouse-server/ch.log</log>
+        <errorlog>/var/log/clickhouse-server/ch.err.log</errorlog>
+        <size>1000M</size>
+        <count>3</count>
+        <formatting>
+            <type>json</type>
+            <names>
+                <level>level</level>
+                <logger_name>logger_name</logger_name>
+                <message>message</message>
+            </names>
+        </formatting>
+    </logger>
+
+    <remote_servers replace="true">
+        <mycluster>
+            <secret>mysecretphrase</secret>
+            <shard>
+                <internal_replication>true</internal_replication>
+                <replica>
+                    <host>clickhouse1</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>clickhouse2</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+        </mycluster>
+    </remote_servers>
+
+    <zookeeper>
+        <node>
+            <host>keeper1</host>
+            <port>9181</port>
+        </node>
+        <node>
+            <host>keeper2</host>
+            <port>9181</port>
+        </node>
+        <node>
+            <host>keeper3</host>
+            <port>9181</port>
+        </node>
+    </zookeeper>
+</clickhouse>

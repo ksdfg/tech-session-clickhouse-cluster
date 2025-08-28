@@ -1,0 +1,49 @@
+services:
+  keeper1:
+    image: clickhouse/clickhouse-keeper:25.4.3
+    hostname: keeper1
+    container_name: keeper1
+    volumes:
+      - ./configs/keeper1.xml:/etc/clickhouse-keeper/keeper_config.xml:ro
+    ports:
+      - "9181:9181"
+
+  keeper2:
+    image: clickhouse/clickhouse-keeper:25.4.3
+    hostname: keeper2
+    container_name: keeper2
+    volumes:
+      - ./configs/keeper2.xml:/etc/clickhouse-keeper/keeper_config.xml:ro
+    ports:
+      - "9182:9181"
+
+  keeper3:
+    image: clickhouse/clickhouse-keeper:25.4.3
+    hostname: keeper3
+    container_name: keeper3
+    volumes:
+      - ./configs/keeper3.xml:/etc/clickhouse-keeper/keeper_config.xml:ro
+    ports:
+      - "9183:9181"
+
+  clickhouse1:
+    image: clickhouse/clickhouse-server:25.4.3
+    hostname: clickhouse1
+    container_name: clickhouse1
+    depends_on: [keeper1, keeper2, keeper3]
+    ports:
+      - "9000:9000"
+      - "8123:8123"
+    volumes:
+      - ./configs/server1.xml:/etc/clickhouse-server/config.d/config.xml:ro
+
+  clickhouse2:
+    image: clickhouse/clickhouse-server:25.4.3
+    hostname: clickhouse2
+    container_name: clickhouse2
+    depends_on: [keeper1, keeper2, keeper3]
+    ports:
+      - "9001:9000"
+      - "8124:8123"
+    volumes:
+      - ./configs/server2.xml:/etc/clickhouse-server/config.d/config.xml:ro

@@ -1,0 +1,54 @@
+services:
+  keeper1:
+    image: clickhouse/clickhouse-keeper:25.4.3
+    hostname: keeper1
+    container_name: keeper1
+    volumes:
+      - ./configs/keeper1.xml:/etc/clickhouse-keeper/keeper_config.xml:ro
+    
+  keeper2:
+    image: clickhouse/clickhouse-keeper:25.4.3
+    hostname: keeper2
+    container_name: keeper2
+    volumes:
+      - ./configs/keeper2.xml:/etc/clickhouse-keeper/keeper_config.xml:ro
+    
+  keeper3:
+    image: clickhouse/clickhouse-keeper:25.4.3
+    hostname: keeper3
+    container_name: keeper3
+    volumes:
+      - ./configs/keeper3.xml:/etc/clickhouse-keeper/keeper_config.xml:ro
+    
+  clickhouse-s1-r1:
+    image: clickhouse/clickhouse-server:25.4.3
+    hostname: clickhouse-s1-r1
+    container_name: clickhouse-s1-r1
+    depends_on: [keeper1, keeper2, keeper3]
+    volumes:
+      - ./configs/server-s1-r1.xml:/etc/clickhouse-server/config.d/config.xml:ro
+
+  clickhouse-s1-r2:
+    image: clickhouse/clickhouse-server:25.4.3
+    hostname: clickhouse-s1-r2
+    container_name: clickhouse-s1-r2
+    depends_on: [keeper1, keeper2, keeper3]
+    volumes:
+      - ./configs/server-s1-r2.xml:/etc/clickhouse-server/config.d/config.xml:ro
+
+  clickhouse-s2-r1:
+    image: clickhouse/clickhouse-server:25.4.3
+    hostname: clickhouse-s2-r1
+    container_name: clickhouse-s2-r1
+    depends_on: [keeper1, keeper2, keeper3]
+    volumes:
+      - ./configs/server-s2-r1.xml:/etc/clickhouse-server/config.d/config.xml:ro
+
+  clickhouse1:
+    image: clickhouse/clickhouse-server:25.4.3
+    hostname: clickhouse-s2-r2
+    container_name: clickhouse-s2-r2
+    depends_on: [keeper1, keeper2, keeper3]
+    volumes:
+      - ./configs/server-s2-r2.xml:/etc/clickhouse-server/config.d/config.xml:ro
+

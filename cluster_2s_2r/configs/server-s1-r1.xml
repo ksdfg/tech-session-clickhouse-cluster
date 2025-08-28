@@ -19,7 +19,6 @@
             <type>json</type>
             <names>
                 <date_time>date_time</date_time>
-                <level>level</level>
                 <logger_name>logger_name</logger_name>
                 <message>message</message>
             </names>

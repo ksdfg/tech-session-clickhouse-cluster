@@ -27,6 +27,7 @@ services:
     depends_on: [keeper1, keeper2, keeper3]
     volumes:
       - ./configs/server-s1-r1.xml:/etc/clickhouse-server/config.d/config.xml:ro
+      - ./logs-s1-r1:/var/log/clickhouse-server:rw
 
   clickhouse-s1-r2:
     image: clickhouse/clickhouse-server:25.4.3
@@ -35,6 +36,7 @@ services:
     depends_on: [keeper1, keeper2, keeper3]
     volumes:
       - ./configs/server-s1-r2.xml:/etc/clickhouse-server/config.d/config.xml:ro
+      - ./logs-s1-r2:/var/log/clickhouse-server:rw
 
   clickhouse-s2-r1:
     image: clickhouse/clickhouse-server:25.4.3
@@ -43,6 +45,7 @@ services:
     depends_on: [keeper1, keeper2, keeper3]
     volumes:
       - ./configs/server-s2-r1.xml:/etc/clickhouse-server/config.d/config.xml:ro
+      - ./logs-s2-r1:/var/log/clickhouse-server:rw
 
   clickhouse1:
     image: clickhouse/clickhouse-server:25.4.3
@@ -51,4 +54,5 @@ services:
     depends_on: [keeper1, keeper2, keeper3]
     volumes:
       - ./configs/server-s2-r2.xml:/etc/clickhouse-server/config.d/config.xml:ro
+      - ./logs-s2-r2:/var/log/clickhouse-server:rw
 
